@@ -5,8 +5,7 @@
 // init function headers
 char* create_pointer(int size);
 void print_matrix(char* x, int size);
-char** get_all_alphabets(char* ALPHABET);
-int get_caesar_cipher(char* current_string, int count, char** alphabets, char* regular_alphabet);
+int get_caesar_cipher(char* current_string, int count);
 
 int main(){
 
@@ -17,8 +16,6 @@ int main(){
     char* current_string = malloc(buffer_size);
     int iter = 1;
 
-    char ALPHABET[26] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    char** all_alphabets = get_all_alphabets(ALPHABET);
     FILE *output_file;
 
     // This was added to clear the solutions.txt file
@@ -33,7 +30,7 @@ int main(){
             current_string = realloc(current_string, ((iter+1)*(buffer_size)*(sizeof(char))));
         } else if(c == '\n' || c == 0){         
             // get the cipher offset because it is the end of the line   
-            int cipher_offset = get_caesar_cipher(current_string, count, all_alphabets, ALPHABET);
+            int cipher_offset = get_caesar_cipher(current_string, count);
             printf("%d\n", cipher_offset);
 
             // add cipher offset to solutions file
@@ -54,7 +51,7 @@ int main(){
     }
 
     // perform offset calculation on the last line.
-    int cipher_offset = get_caesar_cipher(current_string, count, all_alphabets, ALPHABET);
+    int cipher_offset = get_caesar_cipher(current_string, count);
     printf("%d\n", cipher_offset);
     output_file = fopen("solutions.txt", "a");
     fprintf(output_file, "%d\n", cipher_offset);
@@ -66,7 +63,7 @@ int main(){
 
 }
 
-int get_caesar_cipher(char* current_string, int count, char** alphabets, char* regular_alphabet){
+int get_caesar_cipher(char* current_string, int count){
     char* current_word = malloc(1);
     char* generated_string = malloc(1);
     
@@ -83,23 +80,26 @@ int get_caesar_cipher(char* current_string, int count, char** alphabets, char* r
 
             // check if the letter is a space
             if(letter == ' '){
+
                 generated_string = realloc(generated_string, generated_count+1);
                 generated_string[generated_count] = ' ';
                 generated_count++;
+
             } else {
-                // find position of the letter in the shifted alphabet
-                for(int i=0; i < 26; i++){
-                    if(letter == alphabets[shift][i]){
-                        // once the position is found, find the right letter in the regular alphabet.
-                        generated_string = realloc(generated_string, generated_count+1);
-                        generated_string[generated_count] = regular_alphabet[i];
-                        generated_count++;
-                        break;
-                    }
+
+                int new_letter = letter - shift;
+                if(new_letter < (int)'A'){
+                    new_letter = new_letter + 26;
                 }
+                
+                generated_string = realloc(generated_string, generated_count+1);
+                generated_string[generated_count] = (char)new_letter;
+                generated_count++;
+
             }
         }
 
+        // printf("%s\n", generated_string);
         int current_word_pos = 0;
         int is_valid = 1;
 
@@ -163,40 +163,6 @@ int get_caesar_cipher(char* current_string, int count, char** alphabets, char* r
     }
     // catch all just in case.
     return 0;
-}
-
-char** get_all_alphabets(char* ALPHABET){
-    // create a list of alphabets with all the shifts
-    char** all_alphabets = create_pointer(26);
-    
-    // go through every letter being the first letter
-    for(int shift=0; shift < 26; shift++){
-        char* current_alphabet = create_pointer(26);
-        int current_index = shift;
-        int i = 0;
-
-        // go through entire alphabet
-        while(i <= 25){
-
-            int final_index = 0;
-            // correct in case the index is out of bounds
-            if(current_index >= 26){
-                final_index = current_index - 26;
-            } else {
-                final_index = current_index;
-            }
-
-            current_alphabet[i] = ALPHABET[final_index];
-            
-            current_index++;
-            i++;
-        }
-        // add shifted alphabet to current list
-        all_alphabets[shift] = current_alphabet;
-        // printf("%s\n", current_alphabet);
-    }
-
-    return all_alphabets;
 }
 
 // helper functions given by TA

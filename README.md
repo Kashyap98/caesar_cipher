@@ -37,7 +37,7 @@ cat [file_path] | ./decrypt_cipher
 To fit with the new assignment guidelines we are now improving the program's speed. This was done on a vmware virtual machine given 4 cores of a AMD Ryzen 2600X and 8 GB of 3200mhz RAM. To test the speed of this function I used the following command:
 
 ```bash
-time cat [file_path] | ./decrypt.o
+time cat [file_path] | ./decrypt_cipher
 ```
 
 | Program Stage | Notes | Run 1 (s)| Run 2 (s)| Run 3 (s)| Average (s)| 
