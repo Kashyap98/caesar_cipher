@@ -31,7 +31,7 @@ int main(){
         } else if(c == '\n' || c == 0){         
             // get the cipher offset because it is the end of the line   
             int cipher_offset = get_caesar_cipher(current_string, count);
-            printf("%d\n", cipher_offset);
+            // printf("%d\n", cipher_offset);
 
             // add cipher offset to solutions file
             output_file = fopen("solutions.txt", "a");
@@ -52,7 +52,7 @@ int main(){
 
     // perform offset calculation on the last line.
     int cipher_offset = get_caesar_cipher(current_string, count);
-    printf("%d\n", cipher_offset);
+    // printf("%d\n", cipher_offset);
     output_file = fopen("solutions.txt", "a");
     fprintf(output_file, "%d\n", cipher_offset);
     fflush(output_file);
@@ -71,7 +71,7 @@ int get_caesar_cipher(char* current_string, int count){
     for(int shift=0; shift < 26; shift++){
         // prepare for generating new string with a new shift
         free(generated_string);
-        generated_string = calloc(1, sizeof(char));
+        generated_string = create_pointer(sizeof(current_string) + 1);
         int generated_count = 0;
 
         // go through every letter in the string
@@ -80,7 +80,6 @@ int get_caesar_cipher(char* current_string, int count){
 
             // check if the letter is a space
             if(letter == ' '){
-
                 generated_string = realloc(generated_string, generated_count+1);
                 generated_string[generated_count] = ' ';
                 generated_count++;
@@ -91,7 +90,6 @@ int get_caesar_cipher(char* current_string, int count){
                 if(new_letter < (int)'A'){
                     new_letter = new_letter + 26;
                 }
-                
                 generated_string = realloc(generated_string, generated_count+1);
                 generated_string[generated_count] = (char)new_letter;
                 generated_count++;
@@ -99,7 +97,6 @@ int get_caesar_cipher(char* current_string, int count){
             }
         }
 
-        // printf("%s\n", generated_string);
         int current_word_pos = 0;
         int is_valid = 1;
 
@@ -137,7 +134,7 @@ int get_caesar_cipher(char* current_string, int count){
 
                     // prepare for checking a new word
                     free(current_word);
-                    current_word = calloc(1, sizeof(char));
+                    current_word = malloc(1);
                     current_word_pos = 0;
                     fclose(fp);
 
@@ -153,7 +150,7 @@ int get_caesar_cipher(char* current_string, int count){
 
         // free the newly created string
         free(generated_string);
-        generated_string = calloc(1, sizeof(char));
+        generated_string = malloc(1);
 
         // return the shift if the entire line was valid
         if(is_valid == 1){
@@ -167,7 +164,7 @@ int get_caesar_cipher(char* current_string, int count){
 
 // helper functions given by TA
 char* create_pointer(int size){
-    char* ret = malloc(size*sizeof(int));
+    char* ret = malloc(size*sizeof(char));
     for(int i = 0; i < size; i++){
         ret[i] = i;
     }
