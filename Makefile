@@ -142,32 +142,32 @@ decrypt_cipher/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/decrypt_cipher.dir/build.make CMakeFiles/decrypt_cipher.dir/build
 .PHONY : decrypt_cipher/fast
 
-hash_table.o: hash_table.c.o
+decrypt.o: decrypt.c.o
 
-.PHONY : hash_table.o
+.PHONY : decrypt.o
 
 # target to build an object file
-hash_table.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/decrypt_cipher.dir/build.make CMakeFiles/decrypt_cipher.dir/hash_table.c.o
-.PHONY : hash_table.c.o
+decrypt.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/decrypt_cipher.dir/build.make CMakeFiles/decrypt_cipher.dir/decrypt.c.o
+.PHONY : decrypt.c.o
 
-hash_table.i: hash_table.c.i
+decrypt.i: decrypt.c.i
 
-.PHONY : hash_table.i
+.PHONY : decrypt.i
 
 # target to preprocess a source file
-hash_table.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/decrypt_cipher.dir/build.make CMakeFiles/decrypt_cipher.dir/hash_table.c.i
-.PHONY : hash_table.c.i
+decrypt.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/decrypt_cipher.dir/build.make CMakeFiles/decrypt_cipher.dir/decrypt.c.i
+.PHONY : decrypt.c.i
 
-hash_table.s: hash_table.c.s
+decrypt.s: decrypt.c.s
 
-.PHONY : hash_table.s
+.PHONY : decrypt.s
 
 # target to generate assembly for a file
-hash_table.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/decrypt_cipher.dir/build.make CMakeFiles/decrypt_cipher.dir/hash_table.c.s
-.PHONY : hash_table.c.s
+decrypt.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/decrypt_cipher.dir/build.make CMakeFiles/decrypt_cipher.dir/decrypt.c.s
+.PHONY : decrypt.c.s
 
 # Help Target
 help:
@@ -178,9 +178,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... decrypt_cipher"
-	@echo "... hash_table.o"
-	@echo "... hash_table.i"
-	@echo "... hash_table.s"
+	@echo "... decrypt.o"
+	@echo "... decrypt.i"
+	@echo "... decrypt.s"
 .PHONY : help
 
 
