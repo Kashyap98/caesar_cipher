@@ -44,8 +44,8 @@ time cat [file_path] | ./decrypt_cipher
 
 | Program Stage | Notes | Run 1 (s)| Run 2 (s)| Run 3 (s)| Average (s)| 
 |---------------|-------|-------|-------|-------|---------|
-| Assignment 1 submission | Script is unmodified from version initially turned in. | 29.357 |       28.934 | 29.062 | 29.118 | 
-|               |       |       |       |       | |
+| Assignment 1 submission | Script is unmodified from version initially turned in. | 31.246 | 31.292 | 31.517 | 31.352 | 
+| Changed my initial version to match the algo posted by TA |   Removed generation of array of alphabets in the beginning    | 16.330 | 16.336 | 16.628 | 16.431 |
 |               |       |       |       |       | |
 
 ## Other Files
