@@ -1,6 +1,8 @@
 # Caesar Cipher Project #2 - Data Structures, Performance Testing, and Unit Testing
 
-Written in C, this script should take in encrypted text in the stdin and output the decrypted text and the cipher shift that it was encrypted with. This was done by comparing all the combinations of cipher shifts with a known dictionary. The script outputs all the results to a solutions.txt file.
+Written in C, this script should take in encrypted text in the stdin and output the decrypted text and the cipher shift that it was encrypted with. This was done by comparing all the combinations of cipher shifts with a known dictionary. The script outputs all the results to a solutions.txt file. 
+
+The hash table used in improving the performance of this program uses the djb2 hash function. This was found here. http://www.cse.yorku.ca/~oz/hash.html
 
 ## Build
 
