@@ -2,65 +2,43 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "hash_table.h"
 
-// structs in this class
-typedef struct HashEntry HashEntry;
-typedef struct HashTable HashTable;
+// int main(){
 
-// functions in this class
-int check_if_word_exists_in_hash_table(HashTable *hash_table, char* word);
-HashEntry *create_new_hash_entry(char* hash_value);
-int add_entry_to_hash_table(HashTable *hash_table, char* string_value);
-int generate_hash_for_string(char* string_buffer);
-HashTable *create_empty_hash_table();
+//     int found_count = 0;
+//     fp = fopen("dictionary2.txt", "r");
+//     while(fgets(buff, 128, (FILE*)fp) != NULL){
+//         buff[strlen(buff) - 1] = '\0';
+//         // printf("%s\n", buff);
+
+//         int value_present = check_if_word_exists_in_hash_table(hash_table, buff);
+//         if(value_present == 1){
+//             found_count++;
+//         }
+//         printf("%i\n", found_count);
+
+//     }
+
+// }
 
 
-// Define our HashEntry (key value pairs & collisions) and HashTable (multiple HashEntries, limit 10,000)
-struct HashEntry{
-    char *value;
-    struct HashEntry *next_entry;
-};
+HashTable *fill_hash_table_with_values(){
 
-struct HashTable{
-
-    HashEntry **hash_entries;
-
-};
-
-int main(){
-
+    // open dictionary file and prepare reading buffer
     FILE *fp;
     fp = fopen("dictionary2.txt", "r");
     char buff[128];
-    int count = 0;
+
     HashTable *hash_table = create_empty_hash_table();
 
     // read the dictionary and check if it is a valid word
     while(fgets(buff, 128, (FILE*)fp) != NULL){
         buff[strlen(buff) - 1] = '\0';
         int hash_val = add_entry_to_hash_table(hash_table, buff);
-        count++;
-        printf("%i\n", count);
-        // HashEntry *retrieved_entry = hash_table->hash_entries[hash_val];
-
-        // printf("The Hash: %s matches the key %i\n", retrieved_entry->value, hash_val);
-
     }
 
-    int found_count = 0;
-    fp = fopen("dictionary2.txt", "r");
-    while(fgets(buff, 128, (FILE*)fp) != NULL){
-        buff[strlen(buff) - 1] = '\0';
-        // printf("%s\n", buff);
-
-        int value_present = check_if_word_exists_in_hash_table(hash_table, buff);
-        if(value_present == 1){
-            found_count++;
-        }
-        printf("%i\n", found_count);
-
-    }
-
+    return hash_table;
 }
 
 int check_if_word_exists_in_hash_table(HashTable *hash_table, char* word){

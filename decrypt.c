@@ -2,10 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "hash_table.h"
+
+
 // init function headers
 char* create_pointer(int size);
 void print_matrix(char* x, int size);
-int get_caesar_cipher(char* current_string, int count);
+int get_caesar_cipher(HashTable *hash_table, char* current_string, int count);
 char* generate_new_string_from_cipher(char* input_string, int count, int shift);
 
 int main(){
@@ -16,6 +19,7 @@ int main(){
     int buffer_size = 256;
     char* current_string = malloc(buffer_size);
     int iter = 1;
+    HashTable *hash_table = fill_hash_table_with_values();
 
     FILE *output_file;
 
@@ -31,7 +35,7 @@ int main(){
             current_string = realloc(current_string, ((iter+1)*(buffer_size)*(sizeof(char))));
         } else if(c == '\n' || c == 0){         
             // get the cipher offset because it is the end of the line   
-            int cipher_offset = get_caesar_cipher(current_string, count);
+            int cipher_offset = get_caesar_cipher(hash_table, current_string, count);
             // printf("%d\n", cipher_offset);
 
             // add cipher offset to solutions file
@@ -52,7 +56,7 @@ int main(){
     }
 
     // perform offset calculation on the last line.
-    int cipher_offset = get_caesar_cipher(current_string, count);
+    int cipher_offset = get_caesar_cipher(hash_table, current_string, count);
     // printf("%d\n", cipher_offset);
     output_file = fopen("solutions.txt", "a");
     fprintf(output_file, "%d\n", cipher_offset);
@@ -119,7 +123,7 @@ char* get_word_from_generated_string(char* generated_string, int starting_pos, i
             current_word[current_word_pos] = letter;
             current_word_pos++;
         } else {
-            if((first_iteration == 1)){
+            if(first_iteration == 1){
                 continue;
             }
             break;
@@ -130,7 +134,7 @@ char* get_word_from_generated_string(char* generated_string, int starting_pos, i
 
 }
 
-int get_caesar_cipher(char* current_string, int count){
+int get_caesar_cipher(HashTable *hash_table, char* current_string, int count){
     
     // go through every shift
     for(int shift=0; shift < 26; shift++){
@@ -150,30 +154,7 @@ int get_caesar_cipher(char* current_string, int count){
             // perform calculation since we have a complete word
             if(current_pos != 0){
 
-                // printf("%s\n", current_word);
-                int word_is_valid = 0;
-                FILE *fp;
-                fp = fopen("dictionary2.txt", "r");
-                char buff[128];
-
-                // read the dictionary and check if it is a valid word
-                while(fgets(buff, 128, (FILE*)fp) != NULL){
-                    buff[strlen(buff) - 1] = '\0';
-                    if(strlen(buff) == strlen(current_word)){
-                        // printf("%i - %i\n", strlen(buff), strlen(current_word));
-                        // printf("%s - %s\n", buff, generated_string);
-                        if(strcmp(current_word, buff) == 0){
-                            print_matrix(current_word, strlen(current_word));
-                            word_is_valid = 1;
-                            break;
-                        }
-
-                    }
-                    
-                }
-
-                // prepare for checking a new word
-                fclose(fp);
+                int word_is_valid = check_if_word_exists_in_hash_table(hash_table, current_word);
 
                 // if a word is not valid, go to the next shift
                 if(word_is_valid == 0){
