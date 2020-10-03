@@ -4,6 +4,7 @@
 
 #include "hash_table.h"
 
+// keep for writing unit test. #TODO REMOVE LATER
 // int main(){
 
 //     int found_count = 0;
@@ -47,6 +48,7 @@ int check_if_word_exists_in_hash_table(HashTable *hash_table, char* word){
     int word_exists = 0;
     int hash_value = generate_hash_for_string(word);
 
+    // find a potential match in our hash table
     HashEntry *entry = hash_table->hash_entries[hash_value];
 
     // we have no entry in our table for this word
@@ -54,17 +56,16 @@ int check_if_word_exists_in_hash_table(HashTable *hash_table, char* word){
         return word_exists;
     }
 
-
     // loop through entries for that hash to see if any of the values match.
     while(entry != NULL){
 
-        // printf("Comparing %s to %s\n", entry->value, word);
-
+        // compare values of the strings. If it matches we can exit since we found a match
         if(strcmp(entry->value, word) == 0){
             word_exists = 1;
             break;
         }
 
+        // continue to check next entry.
         HashEntry *new_entry = entry->next_entry;
         entry = new_entry;
 
@@ -74,10 +75,12 @@ int check_if_word_exists_in_hash_table(HashTable *hash_table, char* word){
 }
 
 HashEntry *create_new_hash_entry(char* hash_value){
-
+    // allocate memory for entry
     HashEntry *hash_entry = malloc(sizeof(HashEntry) * 1);
     hash_entry->value = malloc(1 * sizeof(char));
     hash_entry->next_entry = malloc(1 * sizeof(HashEntry));
+
+    // enter the hash value and init pointer to potential collision
     strcpy(hash_entry->value, hash_value);
     hash_entry->next_entry = NULL;
 
@@ -104,6 +107,7 @@ int add_entry_to_hash_table(HashTable *hash_table, char* string_value){
                 break;
             }
 
+            // continue down the chain to find an empty spot
             HashEntry *new_previous_entry = previous_entry->next_entry;
             previous_entry = new_previous_entry;
 
@@ -123,13 +127,16 @@ int add_entry_to_hash_table(HashTable *hash_table, char* string_value){
     return hash_value;
 }
 
+// This hash algo is the djb2 or Times 33 algo. Source is found in README
 int generate_hash_for_string(char* string_buffer){
     int hash_value = 5381;
 
+    // for entire string add the previous value, multiply by 33, and add the new char
     for(int i = 0; i < strlen(string_buffer); i++){
         hash_value = hash_value * 33 + (int)string_buffer[i];
     }
 
+    // modulus by 10,000 to provide a ceiling for our algo. This will lead to collisions, but will allow us to init a smaller table.
     int ceiling_value = hash_value % 10000;
     int final_hash_value = abs(ceiling_value);
     return final_hash_value;
@@ -137,6 +144,7 @@ int generate_hash_for_string(char* string_buffer){
 
 HashTable *create_empty_hash_table(){
 
+    // allocate memory for our new hash table
     HashTable *hash_table = malloc(sizeof(HashTable) * 1);
 
     // init the hash_entries var

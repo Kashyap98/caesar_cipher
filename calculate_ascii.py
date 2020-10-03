@@ -22,7 +22,7 @@ with open(os.path.join(os.getcwd(), "dictionary2.txt"), "r") as dict_file:
         for letter in word:
             hash_val = hash_val * 33 + ord(letter)
 
-        hash_val = abs(hash_val) % 200000 
+        hash_val = abs(hash_val) % 10000 
 
         if hash_val > max_hash_value:
             max_hash_value = hash_val
