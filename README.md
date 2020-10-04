@@ -58,7 +58,14 @@ time cat [file_path] | ./decrypt_cipher
 |---------------|-------|-------|-------|-------|---------|
 | Assignment 1 submission | Script is unmodified from version initially turned in. | 31.246 | 31.292 | 31.517 | 31.352 | 
 | Changed my initial version to match the algo posted by TA | Removed generation of array of alphabets in the beginning | 16.330 | 16.336 | 16.628 | 16.431 |
-|               |       |       |       |       | |
+| Final submission with Hash Table | Final version of the cipher that uses a hash table to test all permutations of decrypted text. | 0.84 |   0.85 | 0.85 | 0.847 |
+
+
+As evident by the table of performance timings, this program's execution time has been greatly increased in 2 major steps.
+
+The first improvement came after changing the approach of how to retrieve a letter from a shifted alphabet. My previous approach used an array of arrays with different shifted alphabets already generated. This new version utilizes the ascii encodings to use math to get the shifted letter rather than traversing an array. 
+
+The second major improvement involved the implementation of the hash table to search for matches to valid words from our dictionary. This speeds up the O(n) lookup to just O(1) for searching for hash matches. This has a minor change of looking O(n) for a singly linked list when searching through potential collisions. However, this is still much faster than the original method of opening the file and reading it every time.
 
 ## Other Files
 The python files in the project directory were used by me to develop solutions to the project. I did this because I am much more comfortable in python than C so I was able to better understand how to solve the problem.
