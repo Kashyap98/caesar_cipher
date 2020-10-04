@@ -27,12 +27,14 @@ with open(os.path.join(os.getcwd(), "dictionary2.txt"), "r") as dict_file:
         if hash_val > max_hash_value:
             max_hash_value = hash_val
 
+        if hash_val == 7396:
+            print(word)
+
         if hash_val in hashes:
             conflicts += 1
-            
-            print(values[hash_val])
-            print(word)
-            print("____________")
+            # print(values[hash_val])
+            # print(word)
+            # print("____________")
         else:
             hashes.append(hash_val)
             values[hash_val] = hash_val

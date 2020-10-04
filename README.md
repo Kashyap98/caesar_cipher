@@ -1,12 +1,14 @@
 # Caesar Cipher Project #2 - Data Structures, Performance Testing, and Unit Testing
 
-Written in C, this script should take in encrypted text in the stdin and output the decrypted text and the cipher shift that it was encrypted with. This was done by comparing all the combinations of cipher shifts with a known dictionary. The script outputs all the results to a solutions.txt file. 
+Written in C, this script should take in encrypted text in the stdin and output the decrypted text and the cipher shift that it was encrypted with. This was done by comparing all the combinations of cipher shifts with a known dictionary. The script outputs all the results to a solutions.txt file. Finally, unit tests are also added to ensure the program is working correctly.
 
 The hash table used in improving the performance of this program uses the djb2 hash function. This was found here. http://www.cse.yorku.ca/~oz/hash.html
 
 ## Build
 
-This was tested on an Ubuntu VM using cmake v3.16.3. In the project directory run the following command:
+This was tested on an Ubuntu VM using cmake v3.16.3 (https://cmake.org/). In the project directory run the commands below:
+
+NOTE: Google Test is now required to build this project to run the unit tests. I used the instructions at https://github.com/gkthiruvathukal/googletest-mva to download and install this testing framework on MacOS and Linux.
 
 ```bash
 cmake .
@@ -16,10 +18,18 @@ Then run the command:
 make
 ```
 
+## Run Tests
+
+This program also includes 15 unit tests that are able to ensure the program is running properly. These tests are useful when building the application and checking to make sure modifications to these functions did not break the expected behavior.
+
+To run the tests, run the following command:
+```bash
+./run_all_tests
+```
+
 ## Usage
 
 There are 2 main ways to run this script.
-
 
 #### 1. Manual Input
 This method will allow you to input any text into the console and the shift will be calculated against the stored dictionary. 
@@ -30,13 +40,15 @@ This method will allow you to input any text into the console and the shift will
 #### 2. File Input
 This method will allow you to input a file path. This file should be a list of strings separated by line. The script will determine the shift for the line.
 **File path for testing = ./encrypted_text.txt**
+
 ```bash
 cat [file_path] | ./decrypt_cipher
 ```
 
 ## Performance
 
-To fit with the new assignment guidelines we are now improving the program's speed. This was done on a vmware virtual machine given 4 cores of a AMD Ryzen 2600X and 8 GB of 3200mhz RAM. To test the speed of this function I used the following command:
+To fit with the new assignment guidelines we are now improving the program's speed. This was done on a vmware virtual machine given 4 cores of a AMD Ryzen 2600X and 8 GB of 3200mhz RAM. The rest of the system resources remained for the host OS (Windows) to utilize while the VM ram. To test the speed of this program I used the following command:
+**File path for testing = ./encrypted_text.txt**
 
 ```bash
 time cat [file_path] | ./decrypt_cipher
@@ -45,7 +57,7 @@ time cat [file_path] | ./decrypt_cipher
 | Program Stage | Notes | Run 1 (s)| Run 2 (s)| Run 3 (s)| Average (s)| 
 |---------------|-------|-------|-------|-------|---------|
 | Assignment 1 submission | Script is unmodified from version initially turned in. | 31.246 | 31.292 | 31.517 | 31.352 | 
-| Changed my initial version to match the algo posted by TA |   Removed generation of array of alphabets in the beginning    | 16.330 | 16.336 | 16.628 | 16.431 |
+| Changed my initial version to match the algo posted by TA | Removed generation of array of alphabets in the beginning | 16.330 | 16.336 | 16.628 | 16.431 |
 |               |       |       |       |       | |
 
 ## Other Files

@@ -4,25 +4,6 @@
 
 #include "hash_table.h"
 
-// keep for writing unit test. #TODO REMOVE LATER
-// int main(){
-
-//     int found_count = 0;
-//     fp = fopen("dictionary2.txt", "r");
-//     while(fgets(buff, 128, (FILE*)fp) != NULL){
-//         buff[strlen(buff) - 1] = '\0';
-//         // printf("%s\n", buff);
-
-//         int value_present = check_if_word_exists_in_hash_table(hash_table, buff);
-//         if(value_present == 1){
-//             found_count++;
-//         }
-//         printf("%i\n", found_count);
-
-//     }
-
-// }
-
 
 HashTable *fill_hash_table_with_values(){
 
@@ -98,6 +79,8 @@ int add_entry_to_hash_table(HashTable *hash_table, char* string_value){
         int value_added = 0;
         HashEntry *previous_entry = hash_table->hash_entries[hash_value];
 
+        // printf("%s collides with %s with a hash value of %i", previous_entry->value, string_value, hash_value);
+
         // traverse the singly linked list of collisions until an empty spot is found
         while(previous_entry->next_entry != NULL){
 
@@ -133,7 +116,7 @@ int generate_hash_for_string(char* string_buffer){
 
     // for entire string add the previous value, multiply by 33, and add the new char
     for(int i = 0; i < strlen(string_buffer); i++){
-        hash_value = hash_value * 33 + (int)string_buffer[i];
+        hash_value = (hash_value * 33) + (int)string_buffer[i];
     }
 
     // modulus by 10,000 to provide a ceiling for our algo. This will lead to collisions, but will allow us to init a smaller table.
@@ -161,6 +144,3 @@ HashTable *create_empty_hash_table(){
     return hash_table;
 
 }
-
-
-

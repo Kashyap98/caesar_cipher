@@ -3,66 +3,7 @@
 #include <string.h>
 
 #include "hash_table.h"
-
-
-// init function headers
-char* create_pointer(int size);
-void print_matrix(char* x, int size);
-int get_caesar_cipher(HashTable *hash_table, char* current_string, int count);
-char* generate_new_string_from_cipher(char* input_string, int count, int shift);
-
-int main(){
-
-    // declare main variables
-    char c;
-    int count = 0;
-    int buffer_size = 256;
-    char* current_string = malloc(buffer_size);
-    int iter = 1;
-    HashTable *hash_table = fill_hash_table_with_values();
-
-    FILE *output_file;
-
-    // This was added to clear the solutions.txt file
-    output_file = fopen("solutions.txt", "w");
-    fflush(output_file);
-    fclose(output_file);
-
-    // continue until no input is detected.
-    while((c=getchar()) != EOF){
-        if(count%256 == 0 && count > 0 && (c != '\n' && c !=0)){
-            // add to the current string
-            current_string = realloc(current_string, ((iter+1)*(buffer_size)*(sizeof(char))));
-        } else if(c == '\n' || c == 0){         
-            // get the cipher offset because it is the end of the line   
-            int cipher_offset = get_caesar_cipher(hash_table, current_string, count);
-
-            // add cipher offset to solutions file
-            output_file = fopen("solutions.txt", "a");
-            fprintf(output_file, "%d\n", cipher_offset);
-            fflush(output_file);
-            fclose(output_file);
-
-            // free string var to be used again
-            free(current_string);
-            current_string = calloc(buffer_size, sizeof(char));
-            count = 0;
-        } else {
-            // continue adding to the current string
-            current_string[count] = c;
-            count += 1;
-        }
-    }
-
-    // perform offset calculation on the last line.
-    int cipher_offset = get_caesar_cipher(hash_table, current_string, count);
-
-    // write to output file
-    output_file = fopen("solutions.txt", "a");
-    fprintf(output_file, "%d\n", cipher_offset);
-    fflush(output_file);
-    fclose(output_file);
-}
+#include "decrypt.h"
 
 char* generate_new_string_from_cipher(char* input_string, int count, int shift){
 
@@ -169,7 +110,6 @@ int get_caesar_cipher(HashTable *hash_table, char* current_string, int count){
 
         // return the shift if the entire line was valid
         if(is_valid == 1){
-            printf("%d\n", shift);
             return shift;
         }
     }
